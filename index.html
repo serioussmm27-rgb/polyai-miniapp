@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1116" />
+  <title>Свайп-Прогноз</title>
+  <!-- Официальный SDK Telegram Mini Apps -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ============ ЭКРАН СТАРТА ============ -->
+    <section id="screen-start" class="screen is-active">
+      <div class="hero">
+        <div class="hero__logo">🔮</div>
+        <h1 class="hero__title">Свайп-Прогноз</h1>
+        <p class="hero__subtitle">
+          Угадай, во что верит рынок. Свайпай карточки и набирай очки.
+        </p>
+      </div>
+
+      <div class="rules">
+        <div class="rule">
+          <span class="rule__icon">👉</span>
+          <span class="rule__text"><b>Вправо</b> — «Событие сбудется»</span>
+        </div>
+        <div class="rule">
+          <span class="rule__icon">👈</span>
+          <span class="rule__text"><b>Влево</b> — «Не сбудется»</span>
+        </div>
+        <div class="rule">
+          <span class="rule__icon">🎯</span>
+          <span class="rule__text">Совпал с рынком — <b>+очки</b> и серия</span>
+        </div>
+        <div class="rule">
+          <span class="rule__icon">❤️</span>
+          <span class="rule__text">3 жизни. Ошибся — теряешь одну</span>
+        </div>
+      </div>
+
+      <div class="best-line">
+        🏆 Твой рекорд: <b id="start-best">0</b>
+      </div>
+
+      <button id="btn-play" class="btn btn--primary">▶️ Играть</button>
+      <p class="hint" id="loading-hint">Загружаю свежие рынки…</p>
+    </section>
+
+    <!-- ============ ЭКРАН ИГРЫ ============ -->
+    <section id="screen-game" class="screen">
+      <header class="hud">
+        <div class="hud__cell">
+          <div class="hud__label">Очки</div>
+          <div class="hud__value" id="hud-score">0</div>
+        </div>
+        <div class="hud__cell">
+          <div class="hud__label">Серия</div>
+          <div class="hud__value" id="hud-streak">0</div>
+        </div>
+        <div class="hud__cell">
+          <div class="hud__label">Жизни</div>
+          <div class="hud__value" id="hud-lives">❤️❤️❤️</div>
+        </div>
+      </header>
+
+      <div class="deck" id="deck">
+        <!-- Карточки добавляются из JS. Верхняя — активная. -->
+      </div>
+
+      <!-- Всплывающая плашка с реакцией на ответ -->
+      <div class="verdict" id="verdict" aria-hidden="true">
+        <div class="verdict__emoji" id="verdict-emoji">✅</div>
+        <div class="verdict__title" id="verdict-title">Совпало!</div>
+        <div class="verdict__market" id="verdict-market">Рынок: 64% «Да»</div>
+        <div class="verdict__points" id="verdict-points">+12</div>
+      </div>
+
+      <div class="controls">
+        <button class="cbtn cbtn--no" id="btn-no" aria-label="Не сбудется">👎</button>
+        <button class="cbtn cbtn--skip" id="btn-skip" aria-label="Пропустить">⏭️</button>
+        <button class="cbtn cbtn--yes" id="btn-yes" aria-label="Сбудется">👍</button>
+      </div>
+      <p class="controls__hint">Свайпни карточку или нажми кнопку</p>
+    </section>
+
+    <!-- ============ ЭКРАН РЕЗУЛЬТАТА ============ -->
+    <section id="screen-over" class="screen">
+      <div class="result">
+        <div class="result__emoji" id="result-emoji">🏁</div>
+        <h2 class="result__title">Игра окончена</h2>
+
+        <div class="result__score">
+          <div class="result__score-num" id="result-score">0</div>
+          <div class="result__score-cap">очков</div>
+        </div>
+
+        <div id="result-newbest" class="result__newbest" hidden>🎉 Новый рекорд!</div>
+
+        <div class="result__stats">
+          <div class="stat">
+            <div class="stat__num" id="result-correct">0</div>
+            <div class="stat__cap">угадано</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num" id="result-total">0</div>
+            <div class="stat__cap">всего</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num" id="result-acc">0%</div>
+            <div class="stat__cap">точность</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num" id="result-beststreak">0</div>
+            <div class="stat__cap">макс. серия</div>
+          </div>
+        </div>
+
+        <button id="btn-again" class="btn btn--primary">🔄 Ещё раз</button>
+        <button id="btn-share" class="btn btn--ghost">📤 Поделиться результатом</button>
+        <button id="btn-close" class="btn btn--ghost">🏠 Закрыть</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
